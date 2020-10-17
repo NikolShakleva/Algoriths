@@ -1,3 +1,3 @@
-public interface SortAlgorithm {
+public interface SortingAlgorithm {
     public long sortInput (String input);
 }

@@ -9,7 +9,7 @@ public class Producer {
     }
     
 
-    public static void main(String[] args) {
+    public static String generate (String[] args) {
         final String mode = args[0];
         final int N = Integer.parseInt(args[1]);
         final Random R = new Random();
@@ -64,8 +64,12 @@ public class Producer {
 				System.err.println("Unknown mode: " + mode);
 		}
 
-		System.out.println(N);
-		for (int i = 0; i<N; ++i) System.out.println(vals.get(i));
+        StringBuilder sb = new StringBuilder();
+        sb.append(N + " ");
+        for (int i = 0; i<N; ++i) sb.append(vals.get(i) + " ");
+        
+        return sb.toString();
     }
     }
+    
     

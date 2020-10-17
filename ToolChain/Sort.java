@@ -3,20 +3,19 @@ import java.util.*;
 /**
  * Sort
  */
-public class Sort {
+public class Sort implements SortingAlgorithm{
 
-    public static void main(String[] args) {
-        Scanner sc =  new Scanner(System.in);
+    public long sortInput(String input) {
+        Scanner sc =  new Scanner(input);
         int N = sc.nextInt();
-        int [] list = new int [N];
+        long [] list = new long [N];
         for(int i=0; i<N; i++) {
-            list[i] = sc.nextInt();
+            list[i] = sc.nextLong();
         }
-        Arrays.sort(list);
-        int min = list[0];
-        System.out.println(min);
-
         sc.close();
+        
+        Arrays.sort(list);
+        return list[0];
         
     }
 }

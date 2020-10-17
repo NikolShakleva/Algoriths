@@ -1,19 +1,18 @@
 import java.util.*;
-import edu.princeton.cs.algs4.*;
 public class Priority {
     
     
-    public static void main(String[] args) {
-        Scanner sc =  new Scanner(System.in);
+    public long sortInput(String input) {
+        Scanner sc =  new Scanner(input);
         int N = sc.nextInt();
-        MinPQ<Integer> pq = new MinPQ<>();
+        PriorityQueue<Long> pq = new PriorityQueue <> ();
         for(int i=0; i<N; i++) {
-             pq.insert(sc.nextInt());
+             pq.offer(sc.nextLong());
         }
-        int min = pq.min();
-        System.out.println(min);
-
         sc.close();
+
+        return pq.remove();
     }
 
 }
+
