@@ -16,13 +16,13 @@ public class Experiment {
 
 
     public static void main(String args []) {
+        String s = LocalDateTime.now() + "";  
+        File dir = new File(s);    
+        dir.mkdirs();
+         
         for (int i = 0; i < mode.length; i++) {
             for (int k = 0; k < algorithms.length; k++) {
-                try {
-
-                String s = LocalDateTime.now() + "";  
-                File dir = new File(s);    
-                dir.mkdirs();  
+                try { 
                 File file = new File(s + "/" + mode[i] + "_" + algorithms[k] + ".table");
 
                 FileWriter writer = new FileWriter(file);
