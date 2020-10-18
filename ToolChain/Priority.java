@@ -1,5 +1,5 @@
 import java.util.*;
-public class Priority {
+public class Priority implements SortingAlgorithm {
     
     
     public long sortInput(String input) {

@@ -9,10 +9,13 @@ public class Producer {
     }
     
 
-    public static String generate (String[] args) {
+        public static String generate (String[] args) {
         final String mode = args[0];
+        // final String mode = "random";
+        // final int N = 15;
         final int N = Integer.parseInt(args[1]);
         final Random R = new Random();
+        // R.setSeed(Long.parseLong("1234") + N);
         R.setSeed(Long.parseLong(args[2] + N));
 
 
@@ -69,6 +72,7 @@ public class Producer {
         for (int i = 0; i<N; ++i) sb.append(vals.get(i) + " ");
         
         return sb.toString();
+        
     }
     }
     

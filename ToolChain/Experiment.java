@@ -6,7 +6,7 @@ public class Experiment {
 
     private static final String [] mode = new String [] {"sorted", "backwards", "same", "random", "semi-sorted"};
     // private static final String [] N = new String [] {"10","50","100","200","500","1000"};
-    private static final String [] N =  new String [] {"5"};
+    private static final String [] N =  new String [] {"5", "10", "50"};
     private static final String seed = "1234";
     private static String [] algorithms = new String [] {"Sort", "Priority"};
 
