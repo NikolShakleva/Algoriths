@@ -1,10 +1,7 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Experiment {
 
@@ -16,10 +13,11 @@ public class Experiment {
 
 
     public static void main(String args []) {
-        String s = LocalDateTime.now() + "";  
+        String s =  new SimpleDateFormat("yyyy.MM.dd").format(new Date()) + "-" + 
+                    new SimpleDateFormat("HH.mm.ss").format(new Date());;  
         File dir = new File(s);    
         dir.mkdirs();
-         
+
         for (int i = 0; i < mode.length; i++) {
             for (int k = 0; k < algorithms.length; k++) {
                 try { 
