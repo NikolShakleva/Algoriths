@@ -39,8 +39,8 @@ public class Benchmark {
                 st += time;
                 sst += time * time;
         }
-        mean = st/n;
-        sdev = Math.sqrt((sst - mean*mean*n)/(n-1));
+        mean = (st/n)/ 1000;
+        sdev = (Math.sqrt((sst - mean*mean*n)/(n-1)))/1000;
         System.out.printf("%6.1f ns +/- %6.3f %n", mean, sdev);
         return dummy;
         }
