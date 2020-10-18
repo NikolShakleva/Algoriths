@@ -19,16 +19,12 @@ public class Experiment {
         for (int i = 0; i < mode.length; i++) {
             for (int k = 0; k < algorithms.length; k++) {
                 try {
-                //Path path = Paths.get("Algorithms/ToolChain/" + LocalDateTime.now()); 
-                System.out.println(LocalDateTime.now());
 
-                //String s = LocalDateTime.now() + "";     
-                //var dir = Files.createDirectories(path);
-            
-                // File dir = new File(path); 
-                // dir.mkdirs();  
-                File file = new File(mode[i] + "_" + algorithms[k] + ".table");
-                file.mkdir();
+                String s = LocalDateTime.now() + "";  
+                File dir = new File(s);    
+                dir.mkdirs();  
+                File file = new File(s + "/" + mode[i] + "_" + algorithms[k] + ".table");
+
                 FileWriter writer = new FileWriter(file);
 
                 System.out.println(mode[i]);
