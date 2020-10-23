@@ -1,20 +1,33 @@
-import java.util.Scanner;
-/**
- * HashFunction
- */
-public class HashFunction {
+
+import java.io.IOException;
+import java.util.Random;
+
+
+public class TestingHashFunction {
 
     public static int numberOfLeadingZeros(int i) {
 
         if (i == 0)
             return 32;
         int n = 1;
-        if (i >>> 16 == 0) { n += 16; i <<= 16; }
-        if (i >>> 24 == 0) { n +=  8; i <<=  8; }
-        if (i >>> 28 == 0) { n +=  4; i <<=  4; }
-        if (i >>> 30 == 0) { n +=  2; i <<=  2; }
+        if (i >>> 16 == 0) {
+            n += 16;
+            i <<= 16;
+        }
+        if (i >>> 24 == 0) {
+            n += 8;
+            i <<= 8;
+        }
+        if (i >>> 28 == 0) {
+            n += 4;
+            i <<= 4;
+        }
+        if (i >>> 30 == 0) {
+            n += 2;
+            i <<= 2;
+        }
         n -= i >>> 31;
-        return n+1;
+        return n + 1;
     }
 
     public static void main(String[] args) {
@@ -50,15 +63,16 @@ public class HashFunction {
             0x297c0633,
             0x744edb48,
             0x19adce93};
-
-        var sc = new Scanner(System.in);
-        
-        while(sc.hasNext()) {
+            
+        int N = 1_000_000;
+        var r = new Random();
+        int[] FirstNumber = new int[33];
+        for(int l = 0; l < N ; l++) {
             var sb = new StringBuilder();
             int[] B = new int[32];
             int[] C = new int[32];
             
-            int x = sc.nextInt();
+            int x = r.nextInt();
             for(int i = 0; i < 32 ; i++){
                 B[i] = A[i] & x;                    // Adding 2 ingeters represented as bits together
                 int temp = Integer.bitCount(B[i]);  // Storing amount of set bits in the binary representation
@@ -68,11 +82,16 @@ public class HashFunction {
             for(int j = 0; j < 32 ; j++){
                 sb.append(C[j]);
             }
-            System.out.println(sb.toString());
-           Long bin64 = Long.parseLong(sb.toString(), 2);
-           int result = bin64.intValue();
-            System.out.println(result);      
+            Long bin64 = Long.parseLong(sb.toString(), 2);
+            int result = bin64.intValue();
+            int positionFirstOne = numberOfLeadingZeros(result);  
+
+            FirstNumber[positionFirstOne] += 1;
+
+
         }  
+        for (int i = 0 ; i< FirstNumber.length;i++) System.out.println(FirstNumber[i]);
+
     }
         
     
