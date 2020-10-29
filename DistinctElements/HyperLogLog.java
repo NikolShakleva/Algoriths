@@ -1,5 +1,3 @@
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class HyperLogLog {
@@ -28,7 +26,7 @@ public class HyperLogLog {
         return vector;
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         var sc = new Scanner(System.in);
         var N = sc.nextInt();
         int m = 1024;
