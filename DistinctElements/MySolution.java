@@ -30,7 +30,7 @@ public class MySolution {
             //  count if we start from index 1
         //    return count;
         //  count -1 if we start from index 0
-           return count-1;
+           return count;
         }
     
     

@@ -14,7 +14,7 @@ public class HashFunction {
         if (i >>> 28 == 0) { n +=  4; i <<=  4; }
         if (i >>> 30 == 0) { n +=  2; i <<=  2; }
         n -= i >>> 31;
-        return n+1;
+        return n + 1;
     }
 
     public static void main(String[] args) {
