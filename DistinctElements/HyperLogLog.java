@@ -60,10 +60,10 @@ public class HyperLogLog {
         }
 
         //m*m*Z*0.7213/(1 + 1.079/m)
-        double E = (mm * mm * Z * 0.7213)/((1 + 1.079 )/ mm);
+        double E = (mm * mm * Z * 0.7213)/(1 + 1.079 / mm);
 
-        if ((E < (2.5 * mm)) && (V > 0.0)) {
-            E = mm * (Math.log(mm / V)); 
+        if (E < 2.5 * mm && V > 0.0) {
+            E = mm * Math.log(mm / V); 
         } 
         if ( E < N ) System.out.println("below");
         else System.out.println("above");
