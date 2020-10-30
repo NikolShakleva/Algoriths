@@ -12,6 +12,7 @@ public class HyperLogLog {
             x = x | (x >> i);
         }
         count = Integer.bitCount(x);
+        count = 32 - count + 1; 
         return count;
     }
 
@@ -34,12 +35,9 @@ public class HyperLogLog {
 
         while(sc.hasNextInt()){
             int i = sc.nextInt();
-            //int hash = hash(i);
             int f = ((i * 0xbc164501) & 0x7fffffff) >> 21;
-            int x = findPositionOfFirstOne(M[f]) > findPositionOfFirstOne(hash(i)) ? M[f] : i;
-            //M[f] = x;
-            // M[f] = Integer.max(M[f],findPositionOfFirstOne(hash(i)));
-            M[f] = x;
+            // M[j] := max(M[j],rho(h(y[i])))
+             M[f] = Math.max(M[f],findPositionOfFirstOne(hash(i)));
         }
 
         // 1/(2^(-M[0])+...+2^(-M[m-1]))
@@ -66,8 +64,6 @@ public class HyperLogLog {
             E = mm * Math.log(mm / V); 
         } 
         if ( E < N ) System.out.println("below");
-        else System.out.println("above");
-
-        
+        else System.out.println("above"); 
     }
 }
