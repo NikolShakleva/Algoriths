@@ -16,26 +16,34 @@ mu = new_data['Output'].mean()
 std = mu * sigma
 high = mu + std*2
 low = mu - std*2
+high1 = mu + std
+low1 = mu - std
 
 index = new_data[(new_data['Output'] > high)|(new_data['Output'] < low)].index
 new_data.drop(index, inplace = True)
 print(new_data.describe())
 
 d = new_data['Output'].to_numpy()
+d = d/1000
 print(d)
 
 # Fit a normal distribution to the data:
 mu, std = norm.fit(d)
 
 # Plot the histogram.
-plt.hist(d, bins=15, density=True, alpha=0.6, color='g')
+plt.hist(d, bins=15, density=True, alpha=0.6, color='steelblue')
 
 # Plot the PDF.
 xmin, xmax = plt.xlim()
 x = np.linspace(xmin, xmax, 100)
 p = norm.pdf(x, mu, std)
-plt.plot(x, p, 'k', linewidth=2)
-title = "Fit results: mu = %.2f,  std = %.2f" % (mu, std)
+plt.plot(x, p, 'mediumspringgreen', linewidth=2)
+plt.axvline(high/1000, color='dimgrey', linestyle='dashed', linewidth=1)
+plt.axvline(high1/1000, color='dimgrey', linestyle='dashed', linewidth=1)
+plt.axvline(low/1000, color='dimgrey', linestyle='dashed', linewidth=1)
+plt.axvline(low1/1000, color='dimgrey', linestyle='dashed', linewidth=1)
+plt.axvline(mu, color='dimgrey', linestyle='dashed', linewidth=1)
+title = "Fit results: mean = %.2f,  std = %.2f" % (mu, std)
 plt.title(title)
 
 plt.show()
