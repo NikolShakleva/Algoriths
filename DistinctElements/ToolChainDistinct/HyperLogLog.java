@@ -27,15 +27,16 @@ public class HyperLogLog {
         return vector;
     }
 
-    public static void main(String[] args) {
-        var sc = new Scanner(System.in);
-        var N = sc.nextInt();
-        int m = 1024;
+    public static int distinctElements (String input) {
+        var sc = new Scanner(input);
+        int m = sc.nextInt();
         int[] M = new int[m];
 
         while(sc.hasNextInt()){
             int i = sc.nextInt();
-            int f = ((i * 0xbc164501) & 0x7fffffff) >> 21;
+            // if m is smaller than 1024 we need to to % the whole f function with m
+            //  if m is biger than 1024 we need to change the shifting and remove the % m
+            int f = (((i * 0xbc164501) & 0x7fffffff) >> 21) % m;
             // M[j] := max(M[j],rho(h(y[i])))
              M[f] = Math.max(M[f],findPositionOfFirstOne(hash(i)));
         }
@@ -63,7 +64,8 @@ public class HyperLogLog {
         if (E < 2.5 * mm && V > 0.0) {
             E = mm * Math.log(mm / V); 
         } 
-        if ( E < N ) System.out.println("below");
-        else System.out.println("above"); 
+        sc.close();
+        return (int) E;
     }
-}
+    }
+
