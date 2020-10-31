@@ -79,6 +79,6 @@ def make_hist(d, mu, std1, std2, m, n):
 
 # Make Histogram #########################################
 
-for i in all_files:
+for i in all_files:             # Printing all histograms
     prepare(i)
 
