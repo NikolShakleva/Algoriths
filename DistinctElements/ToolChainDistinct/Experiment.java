@@ -25,7 +25,7 @@ public class Experiment {
                 System.out.println("Running for " + "HyperLogLog" + " with M: " + m[i]);
                 writer.write("N;M;Output\n");
 
-                    for(int j = 0; j< 1_000; j++) {
+                    for(int j = 0; j< 10_000; j++) {
                         String input = Producer.generate("random", N, m[i]);
                         int dummy = 0;
                         dummy = HyperLogLog.distinctElements(input);
