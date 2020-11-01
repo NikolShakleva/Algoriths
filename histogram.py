@@ -59,7 +59,7 @@ def make_hist(d, mu, std1, std2, m, n):
     x = np.linspace(xmin, xmax, 100)
     p = norm.pdf(x, mu, std)
 
-    plt.plot(x, p, 'navy', linewidth=2)
+    plt.plot(x, p, 'mediumspringgreen', linewidth=2)
     # axes for standard divation
     plt.axvline(std1[0], color='dimgrey', linestyle='dashed', linewidth=0.5)
     plt.axvline(std1[1], color='dimgrey', linestyle='dashed', linewidth=0.5)
