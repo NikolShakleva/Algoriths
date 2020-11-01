@@ -6,8 +6,6 @@ import java.util.Date;
 
 public class Experiment {
 
-    // private static final String [] mode = new String [] { "half-distinct", "same", "random"};
-    // private static final String [] N =  new String [] {"50_000", "1_000_000", "5_000_000", "10_000_000"};
     private static final int N =  100_000;
     private static final int [] m = new int [] {64, 128, 256, 512, 1024};
 
