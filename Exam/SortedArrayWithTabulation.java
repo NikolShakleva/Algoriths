@@ -11,6 +11,7 @@ public class SortedArrayWithTabulation {
     Scanner sc;
     int size;
     int buckets = (int) Math.pow(2, k);
+    int[] counter = new int[buckets]; 
 
 
     public SortedArrayWithTabulation(){
@@ -32,6 +33,10 @@ public class SortedArrayWithTabulation {
             createTable(x);
         }
 
+        for (int i = 0 ; i < buckets ; i++){
+            Arrays.sort(A[i]);
+        }
+
         while (sc.hasNextInt()){
             int number = sc.nextInt();
             search(number);
@@ -43,17 +48,37 @@ public class SortedArrayWithTabulation {
         // int max = maxBit();
         // int resultMin = min & x;
         // int resultMax = max | x;
+        
         int index = kthMostInteger(x);
-        for (int i = 0; i< k; i++){
-            if(A[index][i]== Integer.MIN_VALUE){
-                A[index][i] = x;
-                Arrays.sort(A[index]);
-                break;
-            }
-        }
+        // for (int i = 0; i< k; i++){
+        //     if(A[index][i]== Integer.MIN_VALUE){
+        //         A[index][i] = x;
+        //         Arrays.sort(A[index]);
+        //         break;
+        //     }
+        // }
+        int ind = counter[index];
+        if(A[index].length == ind) A[index] = resize (A[index]);
+        
+
+        A[index][ind] = x;
+        counter[index] = ind + 1;
 
         // System.out.println("resultMin is: "+ resultMin);
         // System.out.println("resultMax is: " +resultMax);
+    }
+
+    public int[] resize(int[] in){
+        int oldSize = in.length;
+        int newSize = oldSize * 2;
+        int[] temp = new int[newSize];
+        for (int i = 0; i < oldSize;i++){
+            temp[i] = in[i];
+        }
+        for(int k = oldSize ; k < newSize ; k++){
+            temp[k] = Integer.MIN_VALUE;
+        }
+        return temp;
     }
 
     public int minBit(){
