@@ -12,6 +12,9 @@ public class Experiment {
     // private static final String [] N = new String [] {"10","50","100","200","500","1000"};
     private static final String [] N =  new String [] {"1", "2"}; //"50", "100"};
     private static final int seed = 1234;
+    private static final int runPerSeed = 2;
+    private static final int iterations = 10;
+    private static final int n = 2;
     //private static String [] algorithms = new String [] {"BinarySearch", "SortedArrayWithTabulation"};
 
 
@@ -25,10 +28,10 @@ public class Experiment {
                     String inputArray = Producer.generate(new String [] {modeArray[j], N[k], seed + ""});
                     String inputPred = Producer.generate(new String [] {modePred[j], N[k], seed + ""});
                     // hard-coding the iterations and the n for the bechcmark
-                    correctness = Benchmark.warmUp(inputArray, inputPred, 100_000);
+                    correctness = Benchmark.warmUp(inputArray, inputPred, (iterations * n));
                 }
 
-                System.out.println("Warm-up done with correctness " + correctness);
+                System.out.println("Warm-up done with " + correctness);
         }
         // RUNNING THE EXPERIMENT 
         String s =  new SimpleDateFormat("yyyy.MM.dd").format(new Date()) + "-" + 
@@ -39,28 +42,46 @@ public class Experiment {
         System.out.println("Running the experiment");
         for (int i = 0; i < modeArray.length; i++) {
                 try { 
-                File file = new File(s + "/" + modeArray[i] + "_" + ".table");
+                File fileBin = new File(s + "/" + "Binary Search" + modeArray[i] + "_" + ".table");
+                File fileTab = new File(s + "/" + "Tabulation" + modeArray[i] + "_" + ".table");
 
-                FileWriter writer = new FileWriter(file);
+                FileWriter writerBin = new FileWriter(fileBin);
+                FileWriter writerTab = new FileWriter(fileTab);
+                writerBin.write("N mean sdev\n");
+                writerTab.write("N mean sdev\n");
 
                 System.out.println("Running for Algorithms with" + "--" + modeArray[i]);
                 String [] multipleSeed = Seed.createSeed(seed);
                 for(int l = 0; l < multipleSeed.length; l++ ){
                 for (int j = 0; j < N.length; j++) {
+                    double meanBin = 0.0;
+                    double sDevBin = 0.0;
+                    double meanTab = 0.0;
+                    double sDevTab = 0.0;
+
+                    for (int k = 0 ; k < runPerSeed ; k++ ){
                         String  [] array = new String [] {modeArray[i], N[j], multipleSeed[l] };
                         String  [] pred = new String [] {modePred[i], N[j], multipleSeed[l] };
                         String inputArray = (Producer.generate(array));
                         String inputPred = (Producer.generate(pred));
                         // hard-coding the iterations and the n for the bechcmark 
-                        correctness = Benchmark.run(inputArray, inputPred, 10_000, 10);
-                        String lineBin = "BinarySearch " + N[j] + " " + Benchmark.getMeanBin() + " " + Benchmark.getSdevBin() + "\n";
-                        String lineTab = "SortedArrayWithTabulation " + N[j] + " " + Benchmark.getMeanTab() + " " + Benchmark.getSdevTab() + "\n";
-                        writer.append(lineBin, 0, lineBin.length()) ;
-                        writer.append(lineTab, 0, lineTab.length()) ;
+                        correctness = Benchmark.run(inputArray, inputPred, iterations, n);
+                        meanBin += Benchmark.getMeanBin();
+                        sDevBin += Benchmark.getSdevBin();
+                        meanTab += Benchmark.getMeanTab();
+                        sDevTab += Benchmark.getSdevTab();
+                    }
+                        String lineBin = N[j] + " " + (meanBin / runPerSeed) + " " + (sDevBin/runPerSeed) + "\n";
+                        String lineTab = N[j] + " " + (meanTab/runPerSeed) + " " + (sDevTab/runPerSeed) + "\n";
+                        writerBin.append(lineBin, 0, lineBin.length()) ;
+                        writerTab.append(lineTab, 0, lineTab.length()) ;
+
                 }
                 }
-                writer.flush();
-                writer.close();
+                writerBin.flush();
+                writerBin.close();
+                writerTab.flush();
+                writerTab.close();
             } catch (Exception e ) {}
             
 

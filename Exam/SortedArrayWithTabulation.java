@@ -114,10 +114,10 @@ public class SortedArrayWithTabulation {
             int x = sc1.nextInt();
 
             int index = kthMostInteger(x);
-            int result = BinarySearch.indexOf(A[index], x);
+            int result = BinarySearch.indexOf(A[index], x, 0, A[index].length -1);
             while (result == Integer.MIN_VALUE || A[index][result] == Integer.MIN_VALUE &&  index != 0){
                     index = index- 1;
-                    result = BinarySearch.indexOf(A[index], x);
+                    result = BinarySearch.indexOf(A[index], x, 0, A[index].length -1);
             }
             if (result == Integer.MIN_VALUE || A[index][result] == Integer.MIN_VALUE){
                 sb.append("None ");

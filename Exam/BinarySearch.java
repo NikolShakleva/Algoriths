@@ -52,9 +52,9 @@ public class BinarySearch {
      * @param  key the search key
      * @return index of key in array {@code a} if present; {@code -1} otherwise
      */
-    public static int indexOf(int[] a, int key) {
-        int lo = 0;
-        int hi = a.length - 1;
+    public static int indexOf(int[] a, int key, int left, int right) {
+        int lo = left;
+        int hi = right;
         int closest = Integer.MIN_VALUE;
         while (lo <= hi) {
             // Key is in a[lo..hi] or not present.
@@ -75,20 +75,7 @@ public class BinarySearch {
         return closest;
     }
 
-    /**
-     * Returns the index of the specified key in the specified array.
-     * This function is poorly named because it does not give the <em>rank</em>
-     * if the array has duplicate keys or if the key is not in the array.
-     *
-     * @param  key the search key
-     * @param  a the array of integers, must be sorted in ascending order
-     * @return index of key in array {@code a} if present; {@code -1} otherwise
-     * @deprecated Replaced by {@link #indexOf(int[], int)}.
-     */
-    @Deprecated
-    public static int rank(int key, int[] a) {
-        return indexOf(a, key);
-    }
+
 
     /**
      * Reads in a sequence of integers from the allowlist file, specified as
@@ -101,9 +88,9 @@ public class BinarySearch {
     public static String search (int[] A, String inputPred) {
         var sc1 = new Scanner(inputPred);
         StringBuilder sb = new StringBuilder();
-        
+
         while(sc1.hasNextInt()){
-            int index = indexOf(A, sc1.nextInt());
+            int index = indexOf(A, sc1.nextInt(), 0 , A.length-1);
             if(index == Integer.MIN_VALUE) sb.append("None ");
             else sb.append(A[index] + " ");
         }

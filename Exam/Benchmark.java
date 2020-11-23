@@ -9,12 +9,13 @@ public class Benchmark {
         String dummyBin = "";
         String dummyTab = "";
 
-        for(int i = 0; i< n; i++ ) {
+        for(int i = 0; i < n; i++ ) {
                  
                 int[] A = BinarySearch.createArray(inputArray);
                 dummyBin = BinarySearch.search(A, inputPred);
-                var tab = new SortedArrayWithTabulation(inputArray);
+                var tab = new Tabulation(inputArray);
                 dummyTab = tab.pred(inputPred);
+
                 if(!dummyBin.equals(dummyTab)) {
                     System.out.println(dummyBin);
                     System.out.println(dummyTab);
@@ -24,7 +25,7 @@ public class Benchmark {
         return "Success";
     } 
 
-    public static String run(String inputArray, String inputPred, int count, int n) {
+    public static String run(String inputArray, String inputPred, int iterations, int n) {
 
             double stBin = 0.0;
             double stTab = 0.0;
@@ -35,14 +36,14 @@ public class Benchmark {
             for(int i=0; i< n; i++) {
                 Timer tBin = new Timer();
                 Timer tTab = new Timer();
-                for(int j=0; j< count; j++) {
+                for(int j=0; j< iterations; j++) {
          
                         int[] A = BinarySearch.createArray(inputArray);
                         tBin.play();
                         dummyBin = BinarySearch.search(A, inputPred);
                         tBin.pause();
                  
-                        var tab = new SortedArrayWithTabulation(inputArray);
+                        var tab = new Tabulation(inputArray);
                         tTab.play();
                         dummyTab = tab.pred(inputPred);
                         tTab.pause();
@@ -54,8 +55,8 @@ public class Benchmark {
                         }
                     }
                 
-                double timeBin = tBin.check() * 1e9 / count;
-                double timeTab = tTab.check() * 1e9 / count;
+                double timeBin = tBin.check()  / iterations;
+                double timeTab = tTab.check()  / iterations;
                 stBin += timeBin;
                 stTab += timeTab;
                 sstBin += timeBin * timeBin;
@@ -68,8 +69,8 @@ public class Benchmark {
 
 
 
-        System.out.printf("BinarySearch %6.1f ns +/- %6.3f %n", meanBin, sdevBin);
-        System.out.printf("SortedArrayWithTabulation %6.1f ns +/- %6.3f %n", meanTab, sdevTab);
+        System.out.printf("BinarySearch %6.1f micro sec +/- %6.3f %n", meanBin, sdevBin);
+        System.out.printf("Tabulation %6.1f micro sec +/- %6.3f %n", meanTab, sdevTab);
         return "Success";
         }
 
