@@ -1,9 +1,7 @@
 public class Timer {
     private long start, spent = 0;
     public Timer() {
-    play();
     }
-
     //Checks how much time has currently passed since we started
     public double check() {
     return (System.nanoTime() - start + spent) / 1e9;

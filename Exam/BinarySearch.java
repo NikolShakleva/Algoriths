@@ -24,6 +24,7 @@
  *  
  ******************************************************************************/
 import java.util.Arrays;
+import java.util.Scanner;
 
 /**
  *  The {@code BinarySearch} class provides a static method for binary
@@ -42,7 +43,7 @@ public class BinarySearch {
     /**
      * This class should not be instantiated.
      */
-    private BinarySearch() { }
+    public BinarySearch() { }
 
     /**
      * Returns the index of the specified key in the specified array.
@@ -95,7 +96,33 @@ public class BinarySearch {
      * prints to standard output those integers that do <em>not</em> appear in the file.
      *
      * @param args the command-line arguments
+     * 
      */
+    public static String search (int[] A, String inputPred) {
+        var sc1 = new Scanner(inputPred);
+        StringBuilder sb = new StringBuilder();
+        
+        while(sc1.hasNextInt()){
+            int index = indexOf(A, sc1.nextInt());
+            if(index == Integer.MIN_VALUE) sb.append("None ");
+            else sb.append(A[index] + " ");
+        }
+        return sb.toString();
+    }
+
+    public static int[] createArray (String inputArray) {
+        var sc = new Scanner(inputArray);
+        int n = sc.nextInt();
+        int[]A = new int[n];
+       
+
+        for(int i = 0; i < n ; i++){
+            A[i] = sc.nextInt();
+        }
+        Arrays.sort(A);
+
+        return A;
+    }
 
 }
 

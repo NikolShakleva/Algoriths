@@ -9,23 +9,25 @@ public class SortedArrayWithTabulation {
     int k = 10;
     int [][] A;
     Scanner sc;
+    Scanner sc1;
     int size;
     int buckets = (int) Math.pow(2, k);
     int[] counter = new int[buckets]; 
+    StringBuilder sb = new StringBuilder();
 
 
-    public SortedArrayWithTabulation(){
+    public SortedArrayWithTabulation(String input){
 
-        A = new int[buckets][k];
+        A = new int[buckets][2];
 
-        for (int j = 0; j< buckets; j++){
-            for (int l = 0; l<k; l++){
+        for (int j = 0; j < buckets; j++){
+            for (int l = 0; l < 2; l++){
                 // we fill all the positions in the array with minus infinity (instead of 0)
                 A[j][l] = Integer.MIN_VALUE;
             }
         }
 
-        sc = new Scanner(System.in);
+        sc = new Scanner(input);
         size = sc.nextInt();
 
         for (int i = 0; i< size; i++){
@@ -37,10 +39,6 @@ public class SortedArrayWithTabulation {
             Arrays.sort(A[i]);
         }
 
-        while (sc.hasNextInt()){
-            int number = sc.nextInt();
-            search(number);
-        }
     }
 
     public void createTable(int x){
@@ -109,26 +107,32 @@ public class SortedArrayWithTabulation {
         return  res;
     }
 
-    public void search(int x){
-        int index = kthMostInteger(x);
-        int result = BinarySearch.indexOf(A[index], x);
-        while (result == Integer.MIN_VALUE || A[index][result] == Integer.MIN_VALUE &&  index != 0){
-                index = index- 1;
-                result = BinarySearch.indexOf(A[index], x);
-        }
-        if (result == Integer.MIN_VALUE || A[index][result] == Integer.MIN_VALUE){
-        System.out.print("None ");
-        }
+    public String pred(String input){
+        sc1 = new Scanner(input);
 
-        else{
-        System.out.print(A[index][result] + " ");
+        while (sc1.hasNextInt()){
+            int x = sc1.nextInt();
+
+            int index = kthMostInteger(x);
+            int result = BinarySearch.indexOf(A[index], x);
+            while (result == Integer.MIN_VALUE || A[index][result] == Integer.MIN_VALUE &&  index != 0){
+                    index = index- 1;
+                    result = BinarySearch.indexOf(A[index], x);
+            }
+            if (result == Integer.MIN_VALUE || A[index][result] == Integer.MIN_VALUE){
+                sb.append("None ");
+            }
+
+            else{
+            sb.append(A[index][result] + " ");
+            }
         }
-        
+        return sb.toString();   
     }
 
-    public static void main(String[] args) {
+    // public static void main(String[] args) {
 
-        SortedArrayWithTabulation st= new SortedArrayWithTabulation();
+    //     SortedArrayWithTabulation st = new SortedArrayWithTabulation(args[0]);
 
-    }
+    // }
 }
