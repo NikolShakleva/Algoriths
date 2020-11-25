@@ -47,7 +47,7 @@ public class Producer {
             //     for(int i = 0; i < N; i++) {
             //         vals.add(R.nextInt());
             // }
-                IntStream randN = R.ints(N,Integer.MIN_VALUE+1, Integer.MAX_VALUE);
+                IntStream randN = R.ints(N);
                 randN.forEach(e -> vals.add(e));
                 break;
 
