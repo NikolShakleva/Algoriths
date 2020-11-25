@@ -1,6 +1,14 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * TABULATION
+ * 
+ * @author Emelie Skörvald  emsk@itu.dk
+ * @author Nikol Shakleva   
+ * @author Szilvia Gaspar   szga@itu.dk
+ */
+
 public class Tabulation implements Search {
 
     int k = 10;
@@ -38,10 +46,13 @@ public class Tabulation implements Search {
         Arrays.sort(A);
         
         createTable();
-
     }
-    
 
+    /**
+     * Creates a Look-up table containing 2^k indexes each
+     * containing entries for the smalles and biggest 
+     * index for numbers in the specific range
+     */
     public void createTable(){
         
         for(int i = 0; i < size ; i++) {
@@ -53,35 +64,11 @@ public class Tabulation implements Search {
         }
     }
 
-    // public int[] resize(int[] in){
-    //     int oldSize = in.length;
-    //     int newSize = oldSize * 2;
-    //     int[] temp = new int[newSize];
-    //     for (int i = 0; i < oldSize;i++){
-    //         temp[i] = in[i];
-    //     }
-    //     for(int k = oldSize ; k < newSize ; k++){
-    //         temp[k] = Integer.MIN_VALUE;
-    //     }
-    //     return temp;
-    // }
-
-    // public int minBit(){
-    //     int temp = 0;
-    //     int shift = 32-k;
-    //     for (int i = shift; i<32; i++ ){
-    //         temp = 1 << i | temp;
-    //     }
-    //     return temp;
-    // }
-
-    // public int maxBit(){
-    //     int temp = 0;
-    //     int shift = 32-k;
-    //     temp = (1 << shift)-1;
-    //     return temp;
-    // }
-
+    /**
+     * 
+     * @param x integer that should be added to the lookup table
+     * @return an index in the lookup table
+     */
     public int kthMostInteger(int x){
         int shift = 32- k;
         int res = x >> shift;
@@ -94,6 +81,11 @@ public class Tabulation implements Search {
         return  res;
     }
 
+    /**
+     * 
+     * @param input the integer that should be found
+     * @return returns the integer y <= x else None
+     */
     public String pred(String input){
         sc1 = new Scanner(input);
 

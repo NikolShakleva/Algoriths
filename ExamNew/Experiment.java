@@ -6,9 +6,9 @@ import java.util.Date;
 
 public class Experiment {
 
-    private static String[] algorithms      = {"Tabulation", "BinarySearch",  };
-    private static final String[] modeArray = {  "non-existent", "non-existent pred",
-                                                 "random",       "random pred" };
+    private static String[] algorithms      = { "Tabulation", "BinarySearch" };
+    private static final String[] modeArray = { "non-existent", "non-existent pred",
+                                                "random",       "random pred" };
     private static final String[] N         = { "200", "500", "1000" };
 
 
@@ -16,30 +16,15 @@ public class Experiment {
     private static final int seed = 1234;
     private static final int runPerSeed = 2;
     private static final int iterations = 10;
-    private static int[] multipleSeed;
+    private static String dir;
    
 
     public static void main(String args[]) {
         systemInfo();
-        // WARMING UP BEFORE THE EXPERIMENT
-        System.out.println("Running the warm-up...");
-        String correctness = "";
-        for (int i = 0; i < modeArray.length; i += 2) {
-            // Running warmup for 2 first size N 
-            for (int j = 0; j < 2; j++) {
-                String inputArray = Producer.generate(createTestData(i,   j, seed));
-                String inputPred  = Producer.generate(createTestData(i+1, j, seed));
-
-                correctness = Benchmark.warmUp(inputArray, inputPred, (iterations * n), algorithms);
-            } 
-            System.out.println("Warm-up " + i+1 + "/" + modeArray.length/2 + " done! " + correctness);
-        }
-
-        String s = createDir();
-        
+        warmUp();
+        createDir();
 
         // RUNNING THE EXPERIMENT
-        // i = mode, a = algorithm, l = seed, j = N
         System.out.println();
         System.out.println("Running the experiment...");
         
@@ -49,28 +34,28 @@ public class Experiment {
             try   {
                 System.out.println();
                 for (int a = 0; a < algorithms.length; a++) {
-                    file[a] = createFile(s, a, i);
+                    file[a] = createFile(a, i);
                     sb[a] = new StringBuilder();
                 }
 
                 System.out.println("All Algorithms with mode: " + modeArray[i]);
                 
-                multipleSeed = Seed.createSeed(seed);
-                for (int l = 0; l < multipleSeed.length; l++) {
+                int[] seedArray = Seed.createSeed(seed);
+                for (int l = 0; l < seedArray.length; l++) {
                     for (int j = 0; j < N.length; j++) {
                         System.out.println("-------------------------------------");
-                        System.out.println("N: " + N[j] + " and Seed: " + multipleSeed[l]);
+                        System.out.println("N: " + N[j] + " and Seed: " + seedArray[l]);
                         System.out.println("-------------------------------------");
                         double[] mean = new double[algorithms.length];
                         double[] sDev = new double[algorithms.length];
 
                         for (int k = 0; k < runPerSeed; k++) {
                             
-                            
-                            String inputArray = Producer.generate(createTestData(i,   j, multipleSeed[l]));
-                            String inputPred  = Producer.generate(createTestData(i+1, j, multipleSeed[l]));
-                            // hard-coding the iterations and the n for the bechcmark
-                            correctness = Benchmark.run(inputArray, inputPred, iterations, n, algorithms);
+                            String inputArray = Producer.generate(createTestData(i,   j, seedArray[l]));
+                            String inputPred  = Producer.generate(createTestData(i+1, j, seedArray[l]));
+
+                            Benchmark.run(inputArray, inputPred, iterations, n, algorithms);
+
                             double[] tempMean = Benchmark.getMean();
                             double[] tempSdev = Benchmark.getSdev();
 
@@ -87,23 +72,40 @@ public class Experiment {
                 addMeasurements(sb, file);
             } catch (IOException e) { e.printStackTrace();}
         }
-        end(s);
+        end();
     }
 
 
 // HELPER FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////
 
+public static void warmUp() {
+
+    System.out.println("Running the warm-up...");
+    String correctness = "";
+    for (int i = 0; i < modeArray.length; i += 2) {
+        
+        for (int j = 0; j < 2; j++) {                                           // Running warmup for 2 first size N 
+            String inputArray = Producer.generate(createTestData(i,   j, seed));
+            String inputPred  = Producer.generate(createTestData(i+1, j, seed));
+
+            correctness = Benchmark.warmUp(inputArray, inputPred, 
+                                            (iterations * n), algorithms);
+        } 
+        System.out.println("Warm-up " + i+1 + "/" + modeArray.length/2 + " done! " + correctness);
+    }
+}
+
     /**
      * 
-     * @param s a StringBuilder array
-     * @param f a FileWriter array
+     * @param sb a StringBuilder array
+     * @param fw a FileWriter array
      * @throws IOException
      */
-    public static void addMeasurements(StringBuilder[] s, FileWriter[] f) throws IOException {
+    public static void addMeasurements(StringBuilder[] sb, FileWriter[] fw) throws IOException {
         for(int j = 0; j < algorithms.length; j++) {
-                f[j].append(s[j], 0, s[j].length());
-                f[j].flush();
-                f[j].close();
+                fw[j].append(sb[j], 0, sb[j].length());
+                fw[j].flush();
+                fw[j].close();
         }
     }
 
@@ -112,11 +114,11 @@ public class Experiment {
      * @return a string for the newly created directory
      */
     public static String createDir() {
-        String s = new SimpleDateFormat("yyyy.MM.dd").format(new Date()) + "-"
+        dir = new SimpleDateFormat("yyyy.MM.dd").format(new Date()) + "-"
                 + new SimpleDateFormat("HH.mm.ss").format(new Date());
-        File dir = new File(s);
-        dir.mkdirs();
-        return s;
+        File s = new File(dir);
+        s.mkdirs();
+        return dir;
     }
 
     /**
@@ -127,9 +129,9 @@ public class Experiment {
      * @return returns the writer
      * @throws IOException
      */
-    public static FileWriter createFile(String s, int a, int i) throws IOException {
+    public static FileWriter createFile(int a, int i) throws IOException {
 
-        File file = new File(s + "/" + algorithms[a] + modeArray[i] + "_" + ".table");
+        File file = new File(dir + "/" + algorithms[a] + modeArray[i] + "_" + ".table");
         FileWriter writer = new FileWriter(file);
         writer.write("N mean sdev\n");
 
@@ -172,15 +174,14 @@ public class Experiment {
           System.out.println();
       }
       /**
-       * Prints a statment that the test has finished and where to find
+       * Prints a statement that the test has finished and where to find
        * the test data
-       * @param s dircetory of the test data
        */
-      public static void end(String s){
+      public static void end(){
         System.out.println("-------------------------------------");
         System.out.println("Experiment all Done!");
         System.out.println("Find the results here:");
-        System.out.println(System.getProperty("user.dir") +"/"+ s);
+        System.out.println(System.getProperty("user.dir") +"/"+ dir);
         System.out.println();
     }
 }
