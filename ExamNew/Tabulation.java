@@ -47,8 +47,8 @@ public class Tabulation implements Search {
         for(int i = 0; i < size ; i++) {
             int current = A[i];
             int index = kthMostInteger(current);
-            if(table[index][0] > current) table[index][0] = i;
-            if(table[index][1] < current) table[index][1] = i;
+            if(table[index][0] > i) table[index][0] = i;
+            if(table[index][1] < i) table[index][1] = i;
             counter[index] = 1;
         }
     }
@@ -86,7 +86,7 @@ public class Tabulation implements Search {
         int shift = 32- k;
         int res = x >> shift;
         if (res >= buckets/2){
-            res = res - (2 * (res - buckets/2) + 1);
+           res = res - buckets/2;
         }
         else {
             res = res + buckets/2;
@@ -128,7 +128,5 @@ public class Tabulation implements Search {
 
     // }
 //}
-
-
 
 }

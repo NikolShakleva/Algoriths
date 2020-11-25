@@ -6,9 +6,9 @@ import java.util.Date;
 
 public class Experiment {
 
-    private static String[] algorithms      = { "BinarySearch", "Tabulation" };
-    private static final String[] modeArray = { "non-existent", "non-existent pred",
-                                                "random",       "random pred" };
+    private static String[] algorithms      = {"Tabulation", "BinarySearch",  };
+    private static final String[] modeArray = {  "non-existent", "non-existent pred",
+                                                 "random",       "random pred" };
     private static final String[] N         = { "200", "500", "1000" };
 
 
