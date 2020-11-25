@@ -48,7 +48,6 @@ public class BinarySearch implements Search {
         var sc = new Scanner(inputArray);
         int n = sc.nextInt();
         A = new int[n];
-       
 
         for(int i = 0; i < n ; i++){
             A[i] = sc.nextInt();
@@ -76,7 +75,7 @@ public class BinarySearch implements Search {
                 if(closest == Integer.MIN_VALUE){
                     closest = mid;
                 }
-                else if (a[mid]> a[closest]){
+                else if (a[mid] > a[closest]){
                     closest = mid;
                 }
             }

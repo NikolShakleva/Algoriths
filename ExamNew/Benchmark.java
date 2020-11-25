@@ -50,6 +50,7 @@ public class Benchmark {
                 }
                 for(int l = 0 ; l < algorithms - 1 ; l++) {
                     if(!dummy[l].equals(dummy[l+1])) {
+                        System.out.println("Failed, Algorithms are not correct");
                         return "Failure";
                     }
                 }
@@ -69,20 +70,6 @@ public class Benchmark {
         return "Success";
     }
 
-    // public static double getSdevBin() {
-    //     return sdevBin;
-    // }
-
-    // public static double getMeanBin() {
-    //     return meanBin;
-    // }
-    // public static double getSdevTab() {
-    //     return sdevTab;
-    // }
-
-    // public static double getMeanTab() {
-    //     return meanTab;
-    // }
     public static double[] getMean(){
         return mean;
     }

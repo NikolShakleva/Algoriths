@@ -9,7 +9,7 @@ public class Producer {
         public static String generate (String[] args) {
 
         final String mode = args[0];
-        final int N = Integer.parseInt(args[1]);
+        final Long N = Long.parseLong(args[1]);
         final Random R = new Random();
         R.setSeed(Integer.parseInt(args[2] + N));
         StringBuilder sbvals = new StringBuilder();
@@ -18,7 +18,7 @@ public class Producer {
 
         final List<Integer> vals = new ArrayList<>();
 
-		vals.add(R.nextInt());
+		//vals.add(R.nextInt());
 
 		switch (mode) {
             // Make sure that the pred does not exist in the vals and the algorithm will go through empty buckets before returning None
@@ -44,16 +44,20 @@ public class Producer {
 
             case "random": 
                 sbvals.append(N + " ");
-                for(int i =1; i<N; i++) {
-                    vals.add(R.nextInt());
-            }
+            //     for(int i = 0; i < N; i++) {
+            //         vals.add(R.nextInt());
+            // }
+                IntStream randN = R.ints(N,Integer.MIN_VALUE+1, Integer.MAX_VALUE);
+                randN.forEach(e -> vals.add(e));
                 break;
 
             
                 case "random pred": 
-                for(int i = 1; i < N; i++) {
-                    vals.add(R.nextInt());
-                }
+                // for(int i = 0; i < N; i++) {
+                //     vals.add(R.nextInt());
+                // }
+                IntStream randNp = R.ints(N,Integer.MIN_VALUE+1, Integer.MAX_VALUE);
+                randNp.forEach(e -> vals.add(e));
                 break;
 
 			default:

@@ -102,7 +102,7 @@ public class Tabulation implements Search {
 
             int index = kthMostInteger(x);
             if (table[index][0] == Integer.MAX_VALUE){
-                while(table[index][0] == Integer.MAX_VALUE && index > 0){
+                while(table[index][0] == Integer.MAX_VALUE && index > 0) {
                     index = index - 1;
                 }
             }
