@@ -1,8 +1,16 @@
 import java.util.*;
 import java.util.stream.IntStream;
-/**
- * Producer
- */
+
+
+/***********************************************************
+ * PRODUCER
+ * 
+ * @author  Emelie Skörvald emsk@itu.dk
+ * @author  Nikol Shakleva  nikv@itu.dk
+ * @author  Szilvia Gaspar  szga@itu.dk
+ * 
+ ***********************************************************/
+
 public class Producer {
     
 
@@ -14,11 +22,7 @@ public class Producer {
         R.setSeed(Integer.parseInt(args[2] + N));
         StringBuilder sbvals = new StringBuilder();
       
-
-
         final List<Integer> vals = new ArrayList<>();
-
-		//vals.add(R.nextInt());
 
 		switch (mode) {
             // Make sure that the pred does not exist in the vals and the algorithm will go through empty buckets before returning None
@@ -30,35 +34,22 @@ public class Producer {
                 break;
 
             case "non-existent pred": 
-                // Making N random large numbers in range from 47_483_647 to 2_147_483_647
                 // Making N random smaller numbers than in vals in range from 0 to 47_483_647
                 IntStream smallNumbers = R.ints(N, 0, 47_483_646);
                 smallNumbers.forEach(e -> vals.add(e));
             break;
-                
-            // case "All in One":
-            //     for(int i =1; i < N; i++) {
-            //         vals.add(vals.get(i-1) - 1);
-            //  }
-            //     break;
 
             case "random": 
                 sbvals.append(N + " ");
-            //     for(int i = 0; i < N; i++) {
-            //         vals.add(R.nextInt());
-            // }
                 IntStream randN = R.ints(N);
                 randN.forEach(e -> vals.add(e));
-                break;
+            break;
 
             
-                case "random pred": 
-                // for(int i = 0; i < N; i++) {
-                //     vals.add(R.nextInt());
-                // }
+            case "random pred": 
                 IntStream randNp = R.ints(N,Integer.MIN_VALUE+1, Integer.MAX_VALUE);
                 randNp.forEach(e -> vals.add(e));
-                break;
+            break;
 
 			default:
 				System.err.println("Unknown mode: " + mode);
@@ -66,8 +57,6 @@ public class Producer {
 
         for (int i = 0; i < N; ++i) sbvals.append(vals.get(i) + " ");
  
-        
         return sbvals.toString();
-        
         }
     }

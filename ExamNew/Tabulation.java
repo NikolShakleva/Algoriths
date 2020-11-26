@@ -1,66 +1,67 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
-/**
+/***********************************************************
  * TABULATION
  * 
  * @author Emelie Skörvald  emsk@itu.dk
- * @author Nikol Shakleva   
+ * @author Nikol Shakleva   nikv@itu.dk
  * @author Szilvia Gaspar   szga@itu.dk
- */
+ ***********************************************************/
 
 public class Tabulation implements Search {
 
     int k = 10;
     int [] A;
     int[][] table;
-    Scanner sc;
-    Scanner sc1;
     int size;
-    int buckets = (int) Math.pow(2, k);
-    int[] counter = new int[buckets]; 
+    int buckets;
     StringBuilder sb = new StringBuilder();
 
 
-    public Tabulation(String input){
+    public Tabulation(String input, int K){
+        k = K;
+        buckets = (int) Math.pow(2, k);
+        makeTabulation(input);
+        createTable();
+    }
 
-        table = new int[buckets][2];
-    
+    /**
+     * 
+     * @param input
+     */
+    public void makeTabulation(String input){
 
-        for (int j = 0; j < buckets; j++){
-            
-            // we fill all the positions in the array with minus infinity (instead of 0)
-            table[j][0] = Integer.MAX_VALUE;
-            table[j][1] = Integer.MIN_VALUE;
-        }
-
-        sc = new Scanner(input);
+        var sc = new Scanner(input);
         size = sc.nextInt();
-
         A = new int[size];
 
         for (int i = 0; i< size; i++){
             A[i] = sc.nextInt();
         }
-
         Arrays.sort(A);
-        
-        createTable();
+        sc.close();
     }
 
-    /**
+	/**
      * Creates a Look-up table containing 2^k indexes each
      * containing entries for the smalles and biggest 
      * index for numbers in the specific range
      */
     public void createTable(){
+
+        table = new int[buckets][2];
+        for (int j = 0; j < buckets; j++){
+            // we fill all the positions in the array with minus infinity (instead of 0)
+            table[j][0] = Integer.MAX_VALUE;
+            table[j][1] = Integer.MIN_VALUE;
+        }
         
         for(int i = 0; i < size ; i++) {
             int current = A[i];
             int index = kthMostInteger(current);
             if(table[index][0] > i) table[index][0] = i;
             if(table[index][1] < i) table[index][1] = i;
-            counter[index] = 1;
         }
     }
 
@@ -70,14 +71,11 @@ public class Tabulation implements Search {
      * @return an index in the lookup table
      */
     public int kthMostInteger(int x){
-        int shift = 32- k;
+        int shift = 32 - k;
         int res = x >> shift;
-        if (res >= buckets/2){
-           res = res - buckets/2;
-        }
-        else {
-            res = res + buckets/2;
-        }
+        if (res >= buckets/2) res = res - (buckets/2);
+        else                  res = res + (buckets/2);
+        
         return  res;
     }
 
@@ -87,10 +85,10 @@ public class Tabulation implements Search {
      * @return returns the integer y <= x else None
      */
     public String pred(String input){
-        sc1 = new Scanner(input);
+        var sc = new Scanner(input);
 
-        while (sc1.hasNextInt()){
-            int x = sc1.nextInt();
+        while (sc.hasNextInt()){
+            int x = sc.nextInt();
 
             int index = kthMostInteger(x);
             if (table[index][0] == Integer.MAX_VALUE){
@@ -111,6 +109,7 @@ public class Tabulation implements Search {
             else sb.append("None ");
             
         }
+        sc.close();
         return sb.toString();   
     }
 

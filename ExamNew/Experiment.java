@@ -4,8 +4,14 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Experiment
+/****************************************************************************************
+ * EXPERIMENT
+ * 
+ * Compilation:     javac Experiment.java
+ * Execution:       java Experiment
+ * Dependencies:    Seed.java,   Producer.java,   Benchmark.java,  Timer.java,
+ *                  Search.java  Tabulation.java, BinarySearch.java
+ *                  
  * 
  * This Experiment Class tests the runningtime for Binary Search.
  * A new direcotry will be made and filled with algorithm * mode files with the test data
@@ -14,18 +20,20 @@ import java.util.Date;
  * add it as a string to the algorithms String array in this class
  * and add an if statement to the searchObject method in the Benchmarking Class.
  * 
- * @author  Emelie Skörvald
- * @author  Nikol Shakleva
- * @author  Szilvia Gaspar
+ * @author  Emelie Skörvald emsk@itu.dk
+ * @author  Nikol Shakleva  nikv@itu.dk
+ * @author  Szilvia Gaspar  szga@itu.dk
  * 
- */
+ ***************************************************************************************/
 
 public class Experiment {
 
     private static String[] algorithms      = { "Tabulation", "BinarySearch" };
     private static final String[] modeArray = { "non-existent", "non-existent pred",
                                                 "random",       "random pred" };
-    private static final String[] N         = { "200", "500", "1000" };
+    private static final int[] N            = { 200, 500, 1000 };
+    private static final int[] K            = { 4, 8, 10, 12 };
+
 
 
     private static final int n = 2;
@@ -60,32 +68,34 @@ public class Experiment {
                 int[] seedArray = Seed.createSeed(seed);                                    
                 for (int l = 0; l < seedArray.length; l++) {                 // FOR EACH SEED ///////////////
                     for (int j = 0; j < N.length; j++) {                     // FOR EACH N     /////////////
-                        System.out.println("-------------------------------------");
-                        System.out.println("N: " + N[j] + " and Seed: " + seedArray[l]);
-                        System.out.println("-------------------------------------");
+                        for (int k = 0; k < K.length;k++ ){
+                            System.out.println("-------------------------------------");
+                            System.out.println("N: " + N[j] +", K: " + K[k] + " and Seed: " + seedArray[l]);
+                            System.out.println("-------------------------------------");
 
-                        double[] mean = new double[algorithms.length];
-                        double[] sDev = new double[algorithms.length];
+                            double[] mean = new double[algorithms.length];
+                            double[] sDev = new double[algorithms.length];
 
-                        for (int k = 0; k < runPerSeed; k++) {              // We run each SEED and N several times
-                            String inputArray = Producer.generate(createTestData(i,   j, seedArray[l]));
-                            String inputPred  = Producer.generate(createTestData(i+1, j, seedArray[l]));
+                            for (int r = 0; r < runPerSeed; r++) {              // We run each SEED and N several times
+                                String inputArray = Producer.generate(createTestData(i,   j, seedArray[l]));
+                                String inputPred  = Producer.generate(createTestData(i+1, j, seedArray[l]));
 
-                            Benchmark.run(inputArray, inputPred, iterations, n, algorithms);
+                                Benchmark.run(inputArray, inputPred, iterations, n, algorithms, K[k]);
 
-                            double[] tempMean = Benchmark.getMean();
-                            double[] tempSdev = Benchmark.getSdev();
+                                double[] tempMean = Benchmark.getMean();
+                                double[] tempSdev = Benchmark.getSdev();
 
-                            for (int m = 0; m < algorithms.length; m++) {   // Adding up all the mean 
-                                mean[m] += tempMean[m];
-                                sDev[m] += tempSdev[m];
+                                for (int a = 0; a < algorithms.length; a++) {   // Adding up all the mean 
+                                    mean[a] += tempMean[a];
+                                    sDev[a] += tempSdev[a];
+                                }
                             }
-                        }
-                        for(int n = 0; n < algorithms.length; n++){
-                            double totalMean = mean[n] / runPerSeed;        // Dividing mean with RunPerSeed
-                            double totalSdev = sDev[n] / runPerSeed;        // Dividing sDev with RunPerSeed
-                            sb[n].append(N[j] + " " + totalMean + " " +     // Adding test data with N, mean, sDev
-                                                    totalSdev + "\n");
+                            for(int a = 0; a < algorithms.length; a++){
+                                double totalMean = mean[a] / runPerSeed;        // Dividing mean with RunPerSeed
+                                double totalSdev = sDev[a] / runPerSeed;        // Dividing sDev with RunPerSeed
+                                sb[a].append(N[j] + " " + totalMean + " " +     // Adding test data with N, mean, sDev
+                                                        totalSdev + "\n");
+                            }
                         }
                     }
                 }
@@ -167,8 +177,8 @@ public class Experiment {
      * @param seed  the current seed
      * @return      returns a String[] for the producer
      */
-    public static String[] createTestData(int j, int k, int seed){
-        return new String[] {modeArray[j], N[k], seed + ""};
+    public static String[] createTestData(int i, int j, int seed){
+        return new String[] {modeArray[i], Integer.toString(N[j]), seed + ""};
     }
 
     /**

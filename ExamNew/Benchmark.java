@@ -1,3 +1,12 @@
+
+/***********************************************************
+ * BENCHMARK
+ * 
+ * @author  Emelie Skörvald emsk@itu.dk
+ * @author  Nikol Shakleva  nikv@itu.dk
+ * @author  Szilvia Gaspar  szga@itu.dk
+ * 
+ ***********************************************************/
 public class Benchmark {
 
     private static double[] sdev;
@@ -9,7 +18,7 @@ public class Benchmark {
         
         for(int i = 0; i < n; i++ ) {
             for(int j = 0; j < algorithms ; j++ ) {
-                Search search = searchObject(algo[j], inputArray);  
+                Search search = searchObject(algo[j], inputArray, 10);  
                 dummy[j] = search.pred(inputPred);
             }
 
@@ -20,7 +29,7 @@ public class Benchmark {
         return "Success";
     } 
 
-    public static String run(String inputArray, String inputPred, int iterations, int n, String[] algo) {
+    public static String run(String inputArray, String inputPred, int iterations, int n, String[] algo, int K) {
 
         int algorithms = algo.length;
         sdev           = new double[algorithms];
@@ -35,7 +44,7 @@ public class Benchmark {
             for(int j = 0; j < algorithms ; j++) t[j] = new Timer();
             for(int k = 0; k < iterations ; k++) {
                 for(int j = 0; j < algorithms ; j++ ) {
-                    Search search = searchObject(algo[j], inputArray);  
+                    Search search = searchObject(algo[j], inputArray, K);  
 
                     t[j].play();
                     dummy[j] = search.pred(inputPred);
@@ -73,10 +82,10 @@ public class Benchmark {
 
 
 
-    static Search searchObject(String algo, String input){
+    static Search searchObject(String algo, String input, int K){
         Search search;
         if   (algo.equals("BinarySearch")) search = new BinarySearch(input);
-        else                               search = new Tabulation(input); 
+        else                               search = new Tabulation(input, K); 
         return search;
     }
 }
