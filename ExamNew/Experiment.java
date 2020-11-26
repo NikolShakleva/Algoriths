@@ -4,6 +4,22 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Experiment
+ * 
+ * This Experiment Class tests the runningtime for Binary Search.
+ * A new direcotry will be made and filled with algorithm * mode files with the test data
+ * 
+ * To add a new algorithm to the test, make sure that it implements the Search interface,
+ * add it as a string to the algorithms String array in this class
+ * and add an if statement to the searchObject method in the Benchmarking Class.
+ * 
+ * @author  Emelie Skörvald
+ * @author  Nikol Shakleva
+ * @author  Szilvia Gaspar
+ * 
+ */
+
 public class Experiment {
 
     private static String[] algorithms      = { "Tabulation", "BinarySearch" };
@@ -88,7 +104,7 @@ public class Experiment {
         String correctness = "";
         for (int i = 0; i < modeArray.length; i += 2) {
             
-            for (int j = 0; j < 2; j++) {                                           // Running warmup for 2 first size N 
+            for (int j = 0; j < 2; j++) {                                          
                 String inputArray = Producer.generate(createTestData(i,   j, seed));
                 String inputPred  = Producer.generate(createTestData(i+1, j, seed));
 
@@ -98,7 +114,7 @@ public class Experiment {
             System.out.println("Warm-up " + i+1 + "/" + modeArray.length/2 + " done! " + correctness);
         }
     }
-    
+
 // HELPER FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////
 
     /** Adds all the test data to the the file and closes the FileWriter

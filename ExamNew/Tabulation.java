@@ -29,9 +29,9 @@ public class Tabulation implements Search {
 
         for (int j = 0; j < buckets; j++){
             
-                // we fill all the positions in the array with minus infinity (instead of 0)
-                table[j][0] = Integer.MAX_VALUE;
-                table[j][1] = Integer.MIN_VALUE;
+            // we fill all the positions in the array with minus infinity (instead of 0)
+            table[j][0] = Integer.MAX_VALUE;
+            table[j][1] = Integer.MIN_VALUE;
         }
 
         sc = new Scanner(input);
@@ -113,12 +113,5 @@ public class Tabulation implements Search {
         }
         return sb.toString();   
     }
-
-    // public static void main(String[] args) {
-
-    //     Tabulation st = new Tabulation();
-
-    // }
-//}
 
 }

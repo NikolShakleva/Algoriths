@@ -9,11 +9,7 @@ public class Benchmark {
         
         for(int i = 0; i < n; i++ ) {
             for(int j = 0; j < algorithms ; j++ ) {
-                Search search;
-
-                if   (algo[j].equals("BinarySearch")) search = new BinarySearch(inputArray);
-                else                                  search = new Tabulation(inputArray);  
-
+                Search search = searchObject(algo[j], inputArray);  
                 dummy[j] = search.pred(inputPred);
             }
 
@@ -39,10 +35,7 @@ public class Benchmark {
             for(int j = 0; j < algorithms ; j++) t[j] = new Timer();
             for(int k = 0; k < iterations ; k++) {
                 for(int j = 0; j < algorithms ; j++ ) {
-                    Search search;
-
-                    if   (algo[j].equals("BinarySearch")) search = new BinarySearch(inputArray);
-                    else                                  search = new Tabulation(inputArray);  
+                    Search search = searchObject(algo[j], inputArray);  
 
                     t[j].play();
                     dummy[j] = search.pred(inputPred);
@@ -76,6 +69,18 @@ public class Benchmark {
     public static double[] getSdev(){
         return sdev;
     }
+
+
+
+
+    static Search searchObject(String algo, String input){
+        Search search;
+        if   (algo.equals("BinarySearch")) search = new BinarySearch(input);
+        else                               search = new Tabulation(input); 
+        return search;
     }
+}
+
+
 
 
