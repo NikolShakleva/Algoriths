@@ -16,12 +16,13 @@ public class Tabulation implements Search {
     int[][] table;
     int size;
     int buckets;
-    StringBuilder sb = new StringBuilder();
+    int halfBuckets;
 
 
     public Tabulation(String input, int K){
         k = K;
         buckets = (int) Math.pow(2, k);
+        halfBuckets = buckets/2;
         makeTabulation(input);
         createTable();
     }
@@ -40,7 +41,6 @@ public class Tabulation implements Search {
             A[i] = sc.nextInt();
         }
         Arrays.sort(A);
-        sc.close();
     }
 
 	/**
@@ -52,17 +52,38 @@ public class Tabulation implements Search {
 
         table = new int[buckets][2];
         for (int j = 0; j < buckets; j++){
-            // we fill all the positions in the array with minus infinity (instead of 0)
-            table[j][0] = Integer.MAX_VALUE;
-            table[j][1] = Integer.MIN_VALUE;
+            table[j][0] = 0;
+            table[j][1] = size-1;
         }
         
         for(int i = 0; i < size ; i++) {
             int current = A[i];
+            int max = maxBit();
+            int min = minBit();
+            int resultMin = min & current;
+            int resultMax = max | current;
             int index = kthMostInteger(current);
-            if(table[index][0] > i) table[index][0] = i;
-            if(table[index][1] < i) table[index][1] = i;
+
+            if(A[table[index][0]] < resultMin || i < table[index][0]) table[index][0] = i;
+            if(A[table[index][1]] > resultMax || i > table[index][1]) table[index][1] = i;
+
         }
+    }
+
+    public int minBit(){
+        int temp = 0;
+        int shift = 32-k;
+        for (int i = shift; i<32; i++ ){
+            temp = 1 << i | temp;
+        }
+        return temp;
+    }
+
+    public int maxBit(){
+        int temp = 0;
+        int shift = 32-k;
+        temp = (1 << shift)-1;
+        return temp;
     }
 
     /**
@@ -73,44 +94,60 @@ public class Tabulation implements Search {
     public int kthMostInteger(int x){
         int shift = 32 - k;
         int res = x >> shift;
-        if (res >= buckets/2) res = res - (buckets/2);
-        else                  res = res + (buckets/2);
+        res = (res >= halfBuckets) ? res - halfBuckets : 
+                                     res + halfBuckets;
         
         return  res;
     }
 
-    /**
-     * 
-     * @param input the integer that should be found
-     * @return returns the integer y <= x else None
-     */
+
     public String pred(String input){
         var sc = new Scanner(input);
+        StringBuilder sb = new StringBuilder();
 
-        while (sc.hasNextInt()){
+        while (sc.hasNextInt()) {
             int x = sc.nextInt();
-
             int index = kthMostInteger(x);
-            if (table[index][0] == Integer.MAX_VALUE){
-                while(table[index][0] == Integer.MAX_VALUE && index > 0) {
-                    index = index - 1;
-                }
-            }
-            if(table[index][0] != Integer.MAX_VALUE) {
-                int left  = table[index][0];
-                int right = table[index][1] + 1;
+            int left  = table[index][0];
+            int right = table[index][1];
 
-                int result = BinarySearch.indexOf(A, x, left, right);
-
-                if (result == Integer.MIN_VALUE && left == 0)   sb.append("None ");
-                else if (result != Integer.MIN_VALUE)           sb.append(A[result] + " ");
-                else                                            sb.append(A[left-1] + " ");
-            }
-            else sb.append("None ");
-            
+            if (left > 0) sb.append(A[left] > x ? A[left-1] + " " : A[indexOf(x, left, right)] + " ");
+            else          sb.append(A[left] > x ? "None "         : A[indexOf(x, left, right)] + " ");       
         }
-        sc.close();
         return sb.toString();   
     }
 
+        /**
+     * Returns the index of the specified key in the specified array.
+     *
+     * @param  a the array of integers, must be sorted in ascending order
+     * @param  key the search key
+     * @return index of key in array {@code a} if present; {@code -1} otherwise
+     */
+    public int indexOf(int key, int left, int right) {
+        int lo = left;
+        int hi = right;
+        int closest = -1;
+        while (lo <= hi) {
+            // Key is in a[lo..hi] or not present.
+            int mid = lo + (hi - lo) / 2;
+            if      (key < A[mid]) hi = mid - 1;
+            else if (key > A[mid]) {
+                lo = mid + 1;
+                if(closest < 0 || A[mid] > A[closest]) {
+                    closest = mid;
+                }
+            }
+
+            else return mid;
+        }
+        return closest;
+    }
+
+    public static void main(String[] args) {
+        var b = new Tabulation("10 22 -1 10 11 5 -10 20 -25 -30 30", 10);
+        System.out.println(b.pred("1 20 -5 -50"));
+        System.out.println("hi");
+
+    }
 }

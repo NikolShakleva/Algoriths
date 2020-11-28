@@ -17,9 +17,9 @@ public class Producer {
         public static String generate (String[] args) {
 
         final String mode = args[0];
-        final Long N = Long.parseLong(args[1]);
+        final int N = Integer.parseInt(args[1]);
         final Random R = new Random();
-        R.setSeed(Integer.parseInt(args[2] + N));
+        R.setSeed(Integer.parseInt(args[2]));
         StringBuilder sbvals = new StringBuilder();
       
         final List<Integer> vals = new ArrayList<>();
@@ -45,6 +45,16 @@ public class Producer {
                 randN.forEach(e -> vals.add(e));
             break;
 
+            case "positive": 
+                sbvals.append(N + " ");
+                IntStream randP = R.ints(N, 0, Integer.MAX_VALUE);
+                randP.forEach(e -> vals.add(e));
+            break;
+
+            case "positive pred": 
+                IntStream randPp = R.ints(N, 0, Integer.MAX_VALUE);
+                randPp.forEach(e -> vals.add(e));
+            break;
             
             case "random pred": 
                 IntStream randNp = R.ints(N,Integer.MIN_VALUE+1, Integer.MAX_VALUE);

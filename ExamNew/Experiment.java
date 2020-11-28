@@ -28,10 +28,11 @@ import java.util.Date;
 
 public class Experiment {
 
-    private static String[] algorithms      = { "Tabulation", "BinarySearch" };
-    private static final String[] modeArray = { "non-existent", "non-existent pred",
+    private static String[] algorithms      = { "Tabulation", "BinarySearch"};
+    private static final String[] modeArray = { "positive",     "positive pred",
+                                                "non-existent", "non-existent pred",
                                                 "random",       "random pred" };
-    private static final int[] N            = { 200, 500, 1000 };
+    private static final int[] N            = { 100, 20, 500, 1000};
     private static final int[] K            = { 4, 8, 10, 12 };
 
 

@@ -62,20 +62,17 @@ public class BinarySearch implements Search {
      * @param  key the search key
      * @return index of key in array {@code a} if present; {@code -1} otherwise
      */
-    public static int indexOf(int[] a, int key, int left, int right) {
-        int lo = left;
-        int hi = right;
-        int closest = Integer.MIN_VALUE;
+    public int indexOf(int key) {
+        int lo = 0;
+        int hi = A.length -1;
+        int closest = -1;
         while (lo <= hi) {
             // Key is in a[lo..hi] or not present.
             int mid = lo + (hi - lo) / 2;
-            if      (key < a[mid]) hi = mid - 1;
-            else if (key > a[mid]) {
+            if      (key < A[mid]) hi = mid - 1;
+            else if (key > A[mid]) {
                 lo = mid + 1;
-                if(closest == Integer.MIN_VALUE){
-                    closest = mid;
-                }
-                else if (a[mid] > a[closest]){
+                if(closest < 0 || A[mid] > A[closest]) {
                     closest = mid;
                 }
             }
@@ -96,13 +93,15 @@ public class BinarySearch implements Search {
      * 
      */
     public String pred (String inputPred) {
-        var sc1 = new Scanner(inputPred);
+        var sc = new Scanner(inputPred);
         StringBuilder sb = new StringBuilder();
 
-        while(sc1.hasNextInt()){
-            int index = indexOf(A, sc1.nextInt(), 0 , A.length-1);
-            if(index == Integer.MIN_VALUE) sb.append("None ");
-            else sb.append(A[index] + " ");
+        while(sc.hasNextInt()){
+            int x = sc.nextInt();
+            int result = indexOf(x);
+
+            if(result < 0) sb.append("None ");
+            else sb.append(A[result] + " ");
         }
         return sb.toString();
     }
@@ -117,7 +116,7 @@ public class BinarySearch implements Search {
             A[i] = sc.nextInt();
         }
         Arrays.sort(A);
-
+        
         return A;
     }
 

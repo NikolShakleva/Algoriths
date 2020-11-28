@@ -114,10 +114,10 @@ public class SortedArrayWithTabulation {
             int x = sc1.nextInt();
 
             int index = kthMostInteger(x);
-            int result = BinarySearch.indexOf(A[index], x, 0, A[index].length -1);
+            int result = indexOf(A[index], x, 0, A[index].length -1);
             while (result == Integer.MIN_VALUE || A[index][result] == Integer.MIN_VALUE &&  index != 0){
                     index = index- 1;
-                    result = BinarySearch.indexOf(A[index], x, 0, A[index].length -1);
+                    result = indexOf(A[index], x, 0, A[index].length -1);
             }
             if (result == Integer.MIN_VALUE || A[index][result] == Integer.MIN_VALUE){
                 sb.append("None ");
@@ -130,6 +130,32 @@ public class SortedArrayWithTabulation {
         return sb.toString();   
     }
 
+            /**
+     * Returns the index of the specified key in the specified array.
+     *
+     * @param  a the array of integers, must be sorted in ascending order
+     * @param  key the search key
+     * @return index of key in array {@code a} if present; {@code -1} otherwise
+     */
+    public int indexOf(int[] a, int key, int left, int right) {
+        int lo = left;
+        int hi = right;
+        int closest = Integer.MIN_VALUE;
+        while (lo <= hi) {
+            // Key is in a[lo..hi] or not present.
+            int mid = lo + (hi - lo) / 2;
+            if      (key < a[mid]) hi = mid - 1;
+            else if (key > a[mid]) {
+                lo = mid + 1;
+                if(closest == Integer.MIN_VALUE || a[mid] > a[closest]) {
+                    closest = mid;
+                }
+            }
+
+            else return mid;
+        }
+        return closest;
+    }
     // public static void main(String[] args) {
 
     //     SortedArrayWithTabulation st = new SortedArrayWithTabulation(args[0]);
