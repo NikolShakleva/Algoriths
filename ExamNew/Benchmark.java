@@ -43,6 +43,11 @@ public class Benchmark {
     } 
 
     /**
+     * run
+     * 
+     * Running the benchmark for the algorithms, all algorithms run after eachother and
+     * the output is sent to a correctness test to make sure that they are correct.
+     * 
      * @param inputArray    String with input data
      * @param inputPred     String with prediction data
      * @param n             integer of how many times the test will be ran
@@ -84,11 +89,17 @@ public class Benchmark {
 
 
     /**
+     * searchObject
      * 
-     * @param algo
-     * @param input
-     * @param K
-     * @return
+     * Instanciates an object of the algorithm that should be tested and stores them in a
+     * Search array. 
+     * To add another algorithm to the test write another if else statement below and to the
+     * algorithms array in the Experiment class
+     * 
+     * @param algo      String of the algorithms that should be tested
+     * @param input     a String with values to use for the array A in the search object
+     * @param K         int of how many buckets Tabulation will use
+     * @return          the searchObject
      */
     public static Search searchObject(String algo, String input, int K){
         Search search;
@@ -98,10 +109,14 @@ public class Benchmark {
     }
 
     /**
+     * correctnessTest
      * 
-     * @param a
-     * @param dummy
-     * @return
+     * Tests that all the output of the algorithms are the same. If they are not
+     * that means that one or more algorithms are incorrect.
+     * 
+     * @param a         int of how many algorithms are in the test
+     * @param dummy     an array with the output from the algortihms
+     * @return          a boolean if the output are the same
      */
     public static Boolean correctnessTest(int a, String[] dummy){
         for(int l = 0 ; l < a-1 ; l++) {
@@ -114,11 +129,15 @@ public class Benchmark {
     }
 
     /**
+     * addTime
      * 
-     * @param a
-     * @param i
-     * @param st
-     * @param sst
+     * adds the running time for each iteration together for the individual
+     * algorithms.
+     * 
+     * @param a     int of how many algorithms are in the test
+     * @param i     int of iterations
+     * @param st    a double array with st for each algorithm
+     * @param sst   a double array with sst for each algorithm
      */
     public static void addTime(int a, int i, double[] st, double[] sst) {
         for(int m = 0; m < a ; m++){    
@@ -130,10 +149,10 @@ public class Benchmark {
 
     /**
      * 
-     * @param a
-     * @param n
-     * @param st
-     * @param sst
+     * @param a     int of how many algorithms are in the test
+     * @param n     int of iterations
+     * @param st    a double array with st for each algorithm
+     * @param sst   a double array with sst for each algorithm
      */
     public static void calculateResult(String[] a, int n, double[] st, double[] sst){
         for(int i = 0; i < a.length ; i++) {
@@ -145,16 +164,18 @@ public class Benchmark {
     }
 
     /**
+     * getMean
      * 
-     * @return
+     * @return  an array with the means of the test for each algorithm
      */
     public static double[] getMean(){
         return mean;
     }
 
     /**
+     * getSdev
      * 
-     * @return
+     * @return  an array with the standard diviation of the test for each algorithm
      */
     public static double[] getSdev(){
         return sdev;
