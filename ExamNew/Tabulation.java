@@ -25,10 +25,11 @@ public class Tabulation implements Search {
         k = K;
         buckets = (int) Math.pow(2, k);
         halfBuckets = buckets/2;
-        makeTabulation(input);
-        createTable();
         max = maxBit();
         min = minBit();
+        makeTabulation(input);
+        createTable();
+
     }
 
     /**
@@ -158,10 +159,10 @@ public class Tabulation implements Search {
         return closest;
     }
 
-    public static void main(String[] args) {
-        var b = new Tabulation("10 22 -1 10 11 5 -10 20 -25 -30 30", 10);
-        System.out.println(b.pred("1 20 -5 -50"));
-        System.out.println("hi");
+    // public static void main(String[] args) {
+    //     var b = new Tabulation("10 22 -1 10 11 5 -10 20 -25 -30 30", 10);
+    //     System.out.println(b.pred("1 20 -5 -50"));
+    //     System.out.println("hi");
 
-    }
+    // }
 }
