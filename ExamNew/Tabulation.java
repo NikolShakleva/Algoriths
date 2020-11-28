@@ -17,6 +17,8 @@ public class Tabulation implements Search {
     int size;
     int buckets;
     int halfBuckets;
+    int max;
+    int min;
 
 
     public Tabulation(String input, int K){
@@ -25,6 +27,8 @@ public class Tabulation implements Search {
         halfBuckets = buckets/2;
         makeTabulation(input);
         createTable();
+        max = maxBit();
+        min = minBit();
     }
 
     /**
@@ -50,19 +54,17 @@ public class Tabulation implements Search {
      */
     public void createTable(){
 
-        table = new int[buckets][2];
-        for (int j = 0; j < buckets; j++){
-            table[j][0] = 0;
-            table[j][1] = size-1;
+        table = new int[buckets][2];                // Creates the the lookup table k^2 indexes containing 2 indexes
+        for (int j = 0; j < buckets; j++){          // Filling each index
+            table[j][0] = 0;                        // Setting the first index to the first index of A
+            table[j][1] = size-1;                   // Setting the second index to the last index of A
         }
         
         for(int i = 0; i < size ; i++) {
-            int current = A[i];
-            int max = maxBit();
-            int min = minBit();
-            int resultMin = min & current;
-            int resultMax = max | current;
-            int index = kthMostInteger(current);
+            int current = A[i];                     // Finding the value of current index of A
+            int resultMin = min & current;          // Finding the min value for the range of current
+            int resultMax = max | current;          // Finding the max value for the range of current
+            int index = kthMostInteger(current);    // Finding the index for the current range
 
             if(A[table[index][0]] < resultMin || i < table[index][0]) table[index][0] = i;
             if(A[table[index][1]] > resultMax || i > table[index][1]) table[index][1] = i;
@@ -70,6 +72,10 @@ public class Tabulation implements Search {
         }
     }
 
+    /**
+     * 
+     * @return the smalles integer in the range of k
+     */
     public int minBit(){
         int temp = 0;
         int shift = 32-k;
@@ -79,6 +85,10 @@ public class Tabulation implements Search {
         return temp;
     }
 
+    /**
+     * 
+     * @return the largest integer in the range of k
+     */
     public int maxBit(){
         int temp = 0;
         int shift = 32-k;
@@ -100,7 +110,11 @@ public class Tabulation implements Search {
         return  res;
     }
 
-
+    /**
+     * 
+     * @param input a string with numbers to predict
+     * @return a string with the result of the prediction
+     */
     public String pred(String input){
         var sc = new Scanner(input);
         StringBuilder sb = new StringBuilder();
@@ -117,7 +131,7 @@ public class Tabulation implements Search {
         return sb.toString();   
     }
 
-        /**
+    /**
      * Returns the index of the specified key in the specified array.
      *
      * @param  a the array of integers, must be sorted in ascending order
