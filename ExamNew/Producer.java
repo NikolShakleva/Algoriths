@@ -35,7 +35,7 @@ public class Producer {
 
             case "non-existent pred": 
                 // Making N random smaller numbers than in vals in range from 0 to 47_483_647
-                IntStream smallNumbers = R.ints(N, 0, 47_483_646);
+                IntStream smallNumbers = R.ints(2*N, 0, 47_483_646);
                 smallNumbers.forEach(e -> vals.add(e));
             break;
 
@@ -45,21 +45,35 @@ public class Producer {
                 randN.forEach(e -> vals.add(e));
             break;
 
-            case "positive": 
+            case "random pred": 
+                IntStream randNp = R.ints(2*N);
+                randNp.forEach(e -> vals.add(e));
+            break;
+
+            case "big pred, small ints": 
                 sbvals.append(N + " ");
-                IntStream randP = R.ints(N, 0, Integer.MAX_VALUE);
+                IntStream randP = R.ints(N, 0, 1_000);
                 randP.forEach(e -> vals.add(e));
             break;
 
-            case "positive pred": 
-                IntStream randPp = R.ints(N, 0, Integer.MAX_VALUE);
+            case "big pred, small ints pred": 
+                IntStream randPp = R.ints(2*N, 500, Integer.MAX_VALUE);
                 randPp.forEach(e -> vals.add(e));
             break;
-            
-            case "random pred": 
-                IntStream randNp = R.ints(N,Integer.MIN_VALUE+1, Integer.MAX_VALUE);
-                randNp.forEach(e -> vals.add(e));
+
+
+            case "same bucket": 
+                // Making N random smaller numbers than in vals in range from 0 to 47_483_647
+                IntStream numbers = R.ints(N, 0, 1_000);
+                numbers.forEach(e -> vals.add(e));
             break;
+
+            case "same bucket pred": 
+                // Making N random smaller numbers than in vals in range from 0 to 47_483_647
+                IntStream numbersP = R.ints(2*N);
+                numbersP.forEach(e -> vals.add(e));
+            break;
+            
 
 			default:
 				System.err.println("Unknown mode: " + mode);

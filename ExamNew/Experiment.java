@@ -29,11 +29,15 @@ import java.util.Date;
 public class Experiment {
 
     private static String[] algorithms      = { "Tabulation", "BinarySearch"};
-    private static final String[] modeArray = { "positive",     "positive pred",
+    private static final String[] modeArray = { "big pred, small ints",     "big pred, small ints pred",
                                                 "non-existent", "non-existent pred",
-                                                "random",       "random pred" };
-    private static final int[] N            = { 100, 20, 500, 1000};
-    private static final int[] K            = { 4, 8, 10, 12 };
+                                                "random",       "random pred", "same bucket", "same bucket pred" };
+    //  private static final int[] N            = { 100, 20, 500, 1000};
+    //  private static final int[] K            = { 4, 8, 10, 12 };
+     private static final int[] N            = { 10_000};
+      private static final int[] K            = { 10 };
+
+
 
 
 
@@ -115,7 +119,7 @@ public class Experiment {
         String correctness = "";
         for (int i = 0; i < modeArray.length; i += 2) {
             
-            for (int j = 0; j < 2; j++) {                                          
+            for (int j = 0; j < 1; j++) {                                          
                 String inputArray = Producer.generate(createTestData(i,   j, seed));
                 String inputPred  = Producer.generate(createTestData(i+1, j, seed));
 

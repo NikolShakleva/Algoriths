@@ -56,22 +56,38 @@ public class Tabulation implements Search {
     public void createTable(){
 
         table = new int[buckets][2];                // Creates the the lookup table k^2 indexes containing 2 indexes
-        for (int j = 0; j < buckets; j++){          // Filling each index
-            table[j][0] = 0;                        // Setting the first index to the first index of A
-            table[j][1] = size-1;                   // Setting the second index to the last index of A
-        }
         
+        int previousIndex=0;
         for(int i = 0; i < size ; i++) {
             int current = A[i];                     // Finding the value of current index of A
             int resultMin = min & current;          // Finding the min value for the range of current
             int resultMax = max | current;          // Finding the max value for the range of current
-            int index = kthMostInteger(current);    // Finding the index for the current range
+            int currentIndex = kthMostInteger(current);    // Finding the index for the current range
 
-            if(A[table[index][0]] < resultMin || i < table[index][0]) table[index][0] = i;
-            if(A[table[index][1]] > resultMax || i > table[index][1]) table[index][1] = i;
+            if(A[table[currentIndex][0]] < resultMin || i < table[currentIndex][0]) table[currentIndex][0] = i;
+            if(A[table[currentIndex][1]] > resultMax || i > table[currentIndex][1]) table[currentIndex][1] = i;
 
+            // overwrite the default 0 value of the table with setting the right boundary to i
+            if( currentIndex > previousIndex) {
+
+                for(int j = previousIndex + 1; j < currentIndex; j++) {
+                    table[j][0] = i;
+                    table[j][1] = i;
+                }
+            }
+                 previousIndex = currentIndex;
+            // overwrite the default 0 valus in the table after the index A[size] with the index of A[size-1]
+            if( i==size-1) {
+                for(int l = currentIndex + 1; l < buckets; l++ ) {
+                    table[l][0] = i;
+                    table[l][1] = i;
+                }
+            }
+           
         }
+
     }
+
 
     /**
      * 
@@ -159,10 +175,10 @@ public class Tabulation implements Search {
         return closest;
     }
 
-    // public static void main(String[] args) {
-    //     var b = new Tabulation("10 22 -1 10 11 5 -10 20 -25 -30 30", 10);
-    //     System.out.println(b.pred("1 20 -5 -50"));
-    //     System.out.println("hi");
+    public static void main(String[] args) {
+        var b = new Tabulation("10 22 -1 10 11 5 -10 20 -25 -30 30", 10);
+        System.out.println(b.pred("1 20 -5 -50"));
+        System.out.println("hi");
 
-    // }
+    }
 }
