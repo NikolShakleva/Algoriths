@@ -12,10 +12,13 @@ public class DualPivotQuickSort {
                 int temp = p;
                 p = q;
                 q = temp;
+                A[left] = p;
+                A[right] = q;
             }
             int l = left + 1;
             int g = right -1;
             int k = l;
+            
             
             while (k <= g){
                 //SWAP
@@ -69,7 +72,7 @@ public class DualPivotQuickSort {
     public static void main(String[] args) {
         int[] A = {130, 15, 13, 110, 12, -125, 126, 14};
 
-        dualSort(A, 1, A.length-1);
+        dualSort(A, 0, A.length-1);
         System.out.println(Arrays.toString(A));
     }
     
